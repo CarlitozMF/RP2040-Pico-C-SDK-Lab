@@ -6,7 +6,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # 2. Incluir el helper del SDK
 include($ENV{PICO_MISC_PATH}/pico_sdk_import.cmake)
 
-# 3. Desactivar picotool (evita fallos por espacios en la ruta de usuario)
+# 3. Desactivar picotool en la fase de build (evita fallos por espacios en rutas)
 set(PICO_NO_PICOTOOL 1 CACHE INTERNAL "")
 
 # 4. Nombre del proyecto automático basado en la carpeta contenedora
@@ -34,29 +34,31 @@ target_link_libraries(${PROJECT_NAME}
     pico_stdlib
 )
 
-# 9. Salidas adicionales
+# 9. Salidas adicionales del SDK
 pico_add_extra_outputs(${PROJECT_NAME})
 
-# 10. Generar .uf2 post-build
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND elf2uf2 ${PROJECT_NAME}.elf ${PROJECT_NAME}.uf2
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generando ${PROJECT_NAME}.uf2..."
-)
+# 10. Generar .uf2 SOLO en Windows usando el binario portable
+if(CMAKE_HOST_WIN32)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND elf2uf2 ${PROJECT_NAME}.elf ${PROJECT_NAME}.uf2
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generando ${PROJECT_NAME}.uf2 para Windows..."
+    )
+endif()
 
-# 11. Target para flashear automáticamente (Detecta el Host OS real)
+# 11. Target para flashear automáticamente según el SO
 if(CMAKE_HOST_WIN32)
     add_custom_target(flash
-        COMMAND cmd /c "for %d in (D E F G H I J K) do if exist %d:\\INFO_UF2.TXT copy /Y ${PROJECT_NAME}.uf2 %d:\\"
+        COMMAND cmd /c "for %d in (D E F G H I J K L M N O P Q R S T U V W X Y Z) do if exist %d:\\INFO_UF2.TXT copy /Y ${PROJECT_NAME}.uf2 %d:\\"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Buscando Raspberry Pi Pico y copiando ${PROJECT_NAME}.uf2 en Windows..."
     )
 else()
     add_custom_target(flash
-        COMMAND bash -c "DEST=$$(ls -d /media/$$USER/RPI-RP2 /run/media/$$USER/RPI-RP2 2>/dev/null | head -n 1); if [ -n \"$$DEST\" ]; then cp ${PROJECT_NAME}.uf2 \"$$DEST/\"; echo 'Firmware copiado con exito!'; else echo 'Error: No se encontro la Pico en modo BOOTSEL'; exit 1; fi"
+        COMMAND bash "${CMAKE_SOURCE_DIR}/../../misc/flash.sh" "${PROJECT_NAME}.elf"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS ${PROJECT_NAME}
-        COMMENT "Buscando Raspberry Pi Pico y copiando ${PROJECT_NAME}.uf2 en Linux..."
+        COMMENT "Flasheando ${PROJECT_NAME}.elf con picotool en Linux..."
     )
 endif()

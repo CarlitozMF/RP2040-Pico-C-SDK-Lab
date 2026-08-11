@@ -1,0 +1,52 @@
+{
+    "python.terminal.activateEnvironment": false,
+    "files.watcherExclude": {
+        "**/build/**": true
+    },
+    "C_Cpp.files.exclude": {
+        "**/build/**": true
+    },
+    "cSpell.words": [
+        "gpio",
+        "pico",
+        "stdlib",
+        "stdio",
+        "picotool",
+        "elf2uf2",
+        "uf2conv",
+        "bootloader",
+        "openocd",
+        "toolchain",
+        "baremetal",
+        "sysclk",
+        "systick"
+    ],
+    "actionButtons": {
+        "defaultColor": "#ffffff",
+        "loadNpmCommands": false,
+        "reloadButton": null,
+        "commands": [
+            {
+                "name": "$(trash) Clean",
+                "color": "#ff6b6b",
+                "singleInstance": true,
+                "focus": true,
+                "command": "bash -c \"rm -rf projects/*/build build\""
+            },
+            {
+                "name": "$(gear) Compile",
+                "color": "#4ecdc4",
+                "singleInstance": true,
+                "focus": true,
+                "command": "bash -c \"source env.sh && cd projects/01_Blink && mkdir -p build && cd build && cmake -G 'Ninja' .. && ninja\""
+            },
+            {
+                "name": "$(zap) Flash",
+                "color": "#ffe66d",
+                "singleInstance": true,
+                "focus": true,
+                "command": "bash -c \"source env.sh && cd projects/01_Blink && mkdir -p build && cd build && ninja flash\""
+            }
+        ]
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "RP2040: Compile",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source env.sh && cd \"${fileDirname}\" && mkdir -p build && cd build && cmake -G \"Ninja\" .. && ninja"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
+            "label": "RP2040: Flash",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source env.sh && cd \"${fileDirname}\" && mkdir -p build && cd build && ninja flash"
+            ],
+            "group": "build",
+            "problemMatcher": ["$gcc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            }
+        },
+        {
+            "label": "RP2040: Clean",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "cd \"${fileDirname}\" && rm -rf build"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        }
+    ]
+}

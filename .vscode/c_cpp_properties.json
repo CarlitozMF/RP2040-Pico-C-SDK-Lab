@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Win32 / Git Bash",
+            "includePath": [
+                "${workspaceFolder}/projects/**",
+                "${workspaceFolder}/libs/pico-sdk/src/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "PICO_BOARD=\"pico\"",
+                "PICO_PLATFORM=\"rp2040\"",
+                "PICO_ON_DEVICE=1",
+                "LIB_PICO_STDLIB=1"
+            ],
+            "compilerPath": "C:/msys64/ucrt64/bin/arm-none-eabi-gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm",
+            "compileCommands": "${workspaceFolder}/projects/01_Blink/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,21 @@
+# Carpetas de compilación e IntelliSense
+**/build/
+.vscode/ipch/
+*.VC.db
+
+# Binarios y ejecutables generados
+*.elf
+*.uf2
+*.bin
+*.hex
+*.dis
+*.map
+
+# Entornos virtuales de Python (si aplica)
+.venv/
+venv/
+ENV/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

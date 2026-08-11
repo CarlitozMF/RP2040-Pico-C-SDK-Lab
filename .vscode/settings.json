@@ -48,5 +48,15 @@
                 "command": "bash -c \"source env.sh && cd projects/01_Blink && mkdir -p build && cd build && ninja flash\""
             }
         ]
-    }
+    },
+    "cmake.statusbar.visibility": "hidden",
+    "cmake.statusbar.advanced": {
+        "kit": { "visibility": "hidden" },
+        "status": { "visibility": "hidden" },
+        "build": { "visibility": "hidden" },
+        "buildTarget": { "visibility": "hidden" },
+        "debug": { "visibility": "hidden" },
+        "launch": { "visibility": "hidden" }
+    },
+    "cmake.sourceDirectory": "${workspaceFolder}/libs/pico-sdk"
 }
